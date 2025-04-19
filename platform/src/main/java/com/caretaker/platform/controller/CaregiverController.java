@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -92,6 +93,22 @@ public class CaregiverController {
             return ResponseEntity.badRequest().body(Map.of("message", "User not found"));
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getCaregivers(
+            @RequestParam(required = false) String serviceType,
+            @RequestParam(required = false) String location) {
+
+        try {
+            List<Caregiver> caregivers = caregiverService.getApprovedCaregivers(serviceType, location);
+
+            // Convert to DTOs if needed or return as is
+            return ResponseEntity.ok(caregivers);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Error fetching caregivers: " + e.getMessage()));
         }
     }
 

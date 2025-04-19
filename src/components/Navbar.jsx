@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, User as UserIcon, LogOut } from "lucide-react";
@@ -7,7 +6,7 @@ import { useAuth } from "../AuthContext";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { isLoggedIn, username, logout } = useAuth();
+  const { isLoggedIn, username, logout, isCaretaker } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,6 +24,11 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  // Determine dashboard path based on user role
+  const getDashboardPath = () => {
+    return isCaretaker ? "/caregiver-dashboard" : "/user-dashboard";
   };
 
   return (
@@ -116,9 +120,10 @@ const Navbar = () => {
           <div className="hidden md:flex items-center">
             {isLoggedIn ? (
               <div className="flex items-center space-x-4">
-               <Link to="/user-dashboard" className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 ">
+                <Link to={getDashboardPath()} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
                   <UserIcon className="h-4 w-4 mr-1" />
                   {username}
+                  {isCaretaker && <span className="ml-1 text-xs text-blue-600">(Caregiver)</span>}
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -249,10 +254,16 @@ const Navbar = () => {
               {isLoggedIn ? (
                 <>
                   <div className="flex items-center mb-4">
-                    <UserIcon className="h-5 w-5 mr-2 text-gray-700" onClick={() => router.push('/user-dashboard')} />
-                    <span className="text-base font-medium text-gray-700">
-                      {username}
-                    </span>
+                    <Link 
+                      to={getDashboardPath()}
+                      className="flex items-center"
+                    >
+                      <UserIcon className="h-5 w-5 mr-2 text-gray-700 cursor-pointer" />
+                      <span className="text-base font-medium text-gray-700">
+                        {username}
+                        {isCaretaker && <span className="ml-1 text-xs text-blue-600">(Caregiver)</span>}
+                      </span>
+                    </Link>
                   </div>
                   <button
                     onClick={handleLogout}
@@ -287,4 +298,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

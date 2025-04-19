@@ -9,20 +9,18 @@
 //   const [username, setUsername] = useState("");
 //   const [isLoading, setIsLoading] = useState(true);
 
-//   // Check authentication status on mount
 //   useEffect(() => {
 //     const token = localStorage.getItem("token");
 //     const storedUsername = localStorage.getItem("username");
-    
+
 //     if (token && storedUsername) {
 //       setIsLoggedIn(true);
 //       setUsername(storedUsername);
 //     }
-    
+
 //     setIsLoading(false);
 //   }, []);
 
-//   // Login function
 //   const login = (token, name) => {
 //     localStorage.setItem("token", token);
 //     localStorage.setItem("username", name);
@@ -30,7 +28,6 @@
 //     setUsername(name);
 //   };
 
-//   // Logout function
 //   const logout = () => {
 //     localStorage.removeItem("token");
 //     localStorage.removeItem("username");
@@ -39,13 +36,12 @@
 //     setUsername("");
 //   };
 
-//   // Value object to be provided to consumers
 //   const value = {
 //     isLoggedIn,
 //     username,
 //     login,
 //     logout,
-//     isLoading
+//     isLoading,
 //   };
 
 //   return (
@@ -55,10 +51,7 @@
 //   );
 // };
 
-// // Custom hook to use auth context
 // export const useAuth = () => useContext(AuthContext);
-
-// export default AuthContext;
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Create auth context
@@ -68,38 +61,55 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [isCaretaker, setIsCaretaker] = useState(false);
+  const [userRoles, setUserRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const storedUsername = localStorage.getItem("username");
+    const storedIsCaretaker = localStorage.getItem("isCaretaker") === "true";
+    const storedRoles = JSON.parse(localStorage.getItem("userRoles") || "[]");
 
     if (token && storedUsername) {
       setIsLoggedIn(true);
       setUsername(storedUsername);
+      setIsCaretaker(storedIsCaretaker);
+      setUserRoles(storedRoles);
     }
 
     setIsLoading(false);
   }, []);
 
-  const login = (token, name) => {
+  const login = (token, name, caretakerStatus, roles = []) => {
     localStorage.setItem("token", token);
     localStorage.setItem("username", name);
+    localStorage.setItem("isCaretaker", caretakerStatus);
+    localStorage.setItem("userRoles", JSON.stringify(roles || []));
+    
     setIsLoggedIn(true);
     setUsername(name);
+    setIsCaretaker(caretakerStatus);
+    setUserRoles(roles || []);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("isCaretaker");
+    localStorage.removeItem("userRoles");
+    
     setIsLoggedIn(false);
     setUsername("");
+    setIsCaretaker(false);
+    setUserRoles([]);
   };
 
   const value = {
     isLoggedIn,
     username,
+    isCaretaker,
+    userRoles,
     login,
     logout,
     isLoading,
@@ -112,4 +122,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// Hook to use auth context
 export const useAuth = () => useContext(AuthContext);

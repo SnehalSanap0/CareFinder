@@ -109,9 +109,12 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/caregiver/list").permitAll()
                         .requestMatchers("/api/caregiver/apply").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/public/**").permitAll()
+
                         .anyRequest().authenticated()
+
                 );
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

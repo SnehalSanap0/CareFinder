@@ -192,7 +192,7 @@ function CaregiverDashboard() {
         <div className="text-xl text-red-600 mb-4">{error}</div>
         <button 
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          onClick={() => window.location.href = "/caregiver/apply"}
+          onClick={() => window.location.href = "/caregiver-form"}
         >
           Apply as Caregiver
         </button>

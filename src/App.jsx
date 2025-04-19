@@ -22,6 +22,8 @@ import Becomecaregiver from "./components/Becomecaregiver";
 import CaregiverApplicationForm from "./components/CaregiverApplicationForm";
 import CaregiverDashboard from "./components/CargiverDashboard";
 import UserDashboard from "./components/UserDashboard";
+import CaretakerGrid from "./components/CaretakerList";
+import CaretakersPage from "./components/CareTakersPage";
 
 
 function App() {
@@ -61,6 +63,7 @@ function App() {
           <Route path="/find-caregiver" element={<PrivateRoute><FindCaregiver /></PrivateRoute>} />
           <Route path="/become-caregiver" element={<PrivateRoute><Becomecaregiver /></PrivateRoute>} />
           <Route path="/caregiver-form" element={<PrivateRoute><CaregiverApplicationForm /></PrivateRoute>} />
+          <Route path="/caregiver" element={<PrivateRoute><CaretakersPage /></PrivateRoute>} />
                   </Routes>
         <Footer />
       </div>
