@@ -12,7 +12,10 @@ public class Booking {
     private Long caregiverId;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(20)")
     private BookingStatus status;
+
+    private String rejectionReason;
 
     // Getters and setters
     public Long getId() { return id; }
@@ -26,4 +29,7 @@ public class Booking {
 
     public BookingStatus getStatus() { return status; }
     public void setStatus(BookingStatus status) { this.status = status; }
+
+    public String getRejectionReason() { return rejectionReason; }
+    public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
 }
