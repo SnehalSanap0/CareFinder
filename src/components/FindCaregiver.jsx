@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Search, Filter, MapPin, Clock, Star } from "lucide-react";
 import axios from "axios";
+import BookBtn from "./BookBtn";
+import { useAuth } from "../AuthContext";
 
 const FindCaregiver = () => {
+  const { username, isLoggedIn, userId } = useAuth();
   const [caregivers, setCaregivers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -214,9 +217,16 @@ const FindCaregiver = () => {
         </div>
 
         <div className="mt-5">
-          <button className="w-full inline-flex justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
-            Book
-          </button>
+            {isLoggedIn ? (
+              <BookBtn caregiverId={caregiver.id} />
+            ) : (
+              <button 
+                className="w-full inline-flex justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 cursor-not-allowed"
+                disabled
+              >
+                Login to Book
+              </button>
+            )}
         </div>
       </div>
     </div>

@@ -145,6 +145,8 @@ public class AuthService {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        // Get the user from the database to ensure we have the correct ID
         User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
@@ -157,7 +159,8 @@ public class AuthService {
                 jwt,
                 userDetails.getUsername(),
                 user.isCaretaker(),
-                roles
+                roles,
+                user.getId()  // Use the ID from the database
         );
     }
 

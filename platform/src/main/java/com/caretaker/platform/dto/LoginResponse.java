@@ -1,21 +1,3 @@
-//// src/main/java/com/caretaker/platform/dto/LoginResponse.java
-//package com.caretaker.platform.dto;
-//
-//import lombok.Data;
-//
-//@Data
-//public class LoginResponse {
-//    private String token;
-//    private String username;
-//    private boolean isCaretaker;
-//
-//    public LoginResponse(String token, String username, boolean isCaretaker) {
-//        this.token = token;
-//        this.username = username;
-//        this.isCaretaker = isCaretaker;
-//    }
-//}
-// src/main/java/com/caretaker/platform/dto/LoginResponse.java
 package com.caretaker.platform.dto;
 
 import java.util.List;
@@ -25,12 +7,14 @@ public class LoginResponse {
     private String username;
     private boolean isCaretaker;
     private List<String> roles;
+    private Long id;  // Add user ID field
 
-    public LoginResponse(String token, String username, boolean isCaretaker, List<String> roles) {
+    public LoginResponse(String token, String username, boolean isCaretaker, List<String> roles, Long id) {
         this.token = token;
         this.username = username;
         this.isCaretaker = isCaretaker;
         this.roles = roles;
+        this.id = id;
     }
 
     // Getters and setters
@@ -64,5 +48,13 @@ public class LoginResponse {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

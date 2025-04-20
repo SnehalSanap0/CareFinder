@@ -239,10 +239,6 @@ public class UserDetailsImpl implements UserDetails {
         return email;
     }
 
-    public boolean isCaretaker() {
-        return isCaretaker;
-    }
-
     @Override
     public String getPassword() {
         return password;
@@ -271,6 +267,10 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isCaretaker() {
+        return isCaretaker;
     }
 
     @Override
