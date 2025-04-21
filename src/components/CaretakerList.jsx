@@ -6,7 +6,7 @@ const caretakers = [
   {
     id: 1,
     name: "Sarah Johnson",
-    title: "Senior Caregiver",
+
     rating: 4.8,
     reviews: 152,
     hourlyRate: 25,
