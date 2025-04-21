@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Clock, Calendar, User, Check, X } from "lucide-react";
+import { Clock, Calendar, User, Check, X, Bell } from "lucide-react";
 import { useAuth } from "../AuthContext";
 
 function CaregiverDashboard() {
@@ -27,6 +27,7 @@ function CaregiverDashboard() {
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [rejectionReason, setRejectionReason] = useState("");
+  const [setNotifications] = useState([]);
 
   // Function to generate a random color based on name
   const getRandomColor = (name) => {
@@ -103,8 +104,129 @@ function CaregiverDashboard() {
     fetchCaregiverData();
   }, [token]);
 
- 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        if (!token) {
+          setError("Authentication token not found. Please log in again.");
+          return;
+        }
 
+        const response = await axios.get("http://localhost:8080/api/notifications", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        if (response.data) {
+          setNotifications(response.data);
+        } else {
+          setNotifications([]);
+        }
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+        if (err.response) {
+          if (err.response.status === 401) {
+            setError("Your session has expired. Please log in again.");
+          } else if (err.response.status === 403) {
+            setError("You are not authorized to view notifications.");
+          } else if (err.response.status === 404) {
+            setError("No notifications found.");
+          } else if (err.response.status === 500) {
+            setError(`Server error: ${err.response.data?.message || "Please try again later"}`);
+          } else {
+            setError(`Error fetching notifications: ${err.response.data?.message || err.message}`);
+          }
+        } else {
+          setError("Network error. Please check your connection.");
+        }
+        setNotifications([]);
+      }
+    };
+
+    if (caregiver.id) {
+      fetchNotifications();
+    }
+  }, [caregiver.id, token]);
+
+  const handleBookingAction = async (bookingId, action) => {
+    try {
+      if (!token) {
+        setError("Authentication token not found. Please log in again.");
+        return;
+      }
+      
+      if (action === "reject") {
+        setSelectedBooking(bookingId);
+        setShowRejectModal(true);
+        return;
+      }
+
+      const response = await axios.put(`http://localhost:8080/api/bookings/${bookingId}/${action}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      // Refresh bookings after action
+      const bookingsResponse = await axios.get(`http://localhost:8080/api/bookings/caregiver/${caregiver.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      setBookings(bookingsResponse.data);
+    } catch (err) {
+      console.error("Error updating booking:", err);
+      if (err.response) {
+        // Handle specific error cases
+        if (err.response.status === 401) {
+          setError("You are not authenticated. Please log in again.");
+        } else if (err.response.status === 403) {
+          setError("You are not authorized to perform this action.");
+        } else if (err.response.status === 404) {
+          setError("Booking not found.");
+        } else {
+          setError(err.response.data?.message || "Failed to update booking");
+        }
+      } else {
+        setError("Network error. Please check your connection.");
+      }
+    }
+  };
+
+  const handleRejectSubmit = async () => {
+    try {
+      if (!token) {
+        setError("Authentication token not found. Please log in again.");
+        return;
+      }
+
+      await axios.put(`http://localhost:8080/api/bookings/${selectedBooking}/reject`, 
+        { reason: rejectionReason },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      
+      // Refresh bookings after rejection
+      const response = await axios.get(`http://localhost:8080/api/bookings/caregiver/${caregiver.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      setBookings(response.data);
+      setShowRejectModal(false);
+      setRejectionReason("");
+      setSelectedBooking(null);
+    } catch (err) {
+      console.error("Error rejecting booking:", err);
+      setError("Failed to reject booking: " + (err.response?.data?.message || err.message));
+    }
+  };
 
   if (loading) {
     return (
@@ -240,11 +362,105 @@ function CaregiverDashboard() {
           </div>  
         </div>
 
+        {/* Notifications Section */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold text-blue-700 mb-4 pb-2 border-b-2 border-gray-100 flex items-center">
+            <Bell className="h-5 w-5 mr-2" />
+            Notifications
+          </h2>
+          
+          {notifications.length === 0 ? (
+            <p className="text-gray-600">No new notifications</p>
+          ) : (
+            <div className="space-y-4">
+              {notifications.map((notification) => (
+                <div 
+                  key={notification.id} 
+                  className={`p-4 rounded-lg ${notification.read ? 'bg-gray-50' : 'bg-blue-50'}`}
+                >
+                  <p className="text-sm">{notification.message}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {new Date(notification.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Bookings Section */}
-       
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold text-blue-700 mb-4 pb-2 border-b-2 border-gray-100">
+            Pending Bookings
+          </h2>
+          
+          {bookings.length === 0 ? (
+            <p className="text-gray-600">No pending bookings</p>
+          ) : (
+            <div className="space-y-4">
+              {bookings.map((booking) => (
+                <div key={booking.id} className="bg-gray-50 p-4 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Booking #{booking.id}</p>
+                      <p className="text-sm text-gray-600">User ID: {booking.userId}</p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleBookingAction(booking.id, "accept")}
+                        className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 flex items-center"
+                      >
+                        <Check className="h-4 w-4 mr-1" />
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => handleBookingAction(booking.id, "reject")}
+                        className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 flex items-center"
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Reject Modal */}
-        
+        {showRejectModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg max-w-md w-full">
+              <h3 className="text-lg font-semibold mb-4">Reason for Rejection</h3>
+              <textarea
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded mb-4"
+                placeholder="Please provide a reason for rejecting this booking"
+                rows={4}
+              />
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => {
+                    setShowRejectModal(false);
+                    setRejectionReason("");
+                    setSelectedBooking(null);
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleRejectSubmit}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Submit Rejection
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

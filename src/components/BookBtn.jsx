@@ -5,6 +5,7 @@ function BookButton({ caregiverId }) {
     const { token, userId } = useAuth();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleBookClick = async () => {
         try {
@@ -18,6 +19,7 @@ function BookButton({ caregiverId }) {
 
             setIsLoading(true);
             setError(null);
+            setSuccess(false);
 
             const res = await fetch('http://localhost:8080/api/bookings', {
                 method: 'POST',
@@ -38,7 +40,13 @@ function BookButton({ caregiverId }) {
 
             const data = await res.json();
             console.log('Booking created:', data);
-            // You might want to show a success message to the user here
+            setSuccess(true);
+            
+            // Optionally hide success message after some time
+            setTimeout(() => {
+                setSuccess(false);
+            }, 5000);
+            
         } catch (error) {
             console.error('Error creating booking:', error);
             setError(error.message);
@@ -54,14 +62,19 @@ function BookButton({ caregiverId }) {
                     {error}
                 </div>
             )}
+            {success && (
+                <div className="mb-2 text-green-600 text-sm font-medium">
+                    Booking request sent successfully!
+                </div>
+            )}
             <button 
                 className={`w-full inline-flex justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                    isLoading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                    isLoading ? 'bg-blue-400' : success ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'
                 }`}
                 onClick={handleBookClick}
                 disabled={isLoading}
             >
-                {isLoading ? 'Booking...' : 'Book'}
+                {isLoading ? 'Booking...' : success ? 'Booked' : 'Book'}
             </button>
         </div>
     );

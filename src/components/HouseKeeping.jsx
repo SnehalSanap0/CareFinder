@@ -51,115 +51,7 @@ const Housekeeping = () => {
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   // Simulate fetching cleaners from Care.com-like API
-  useEffect(() => {
-    const fetchCleaners = async () => {
-      try {
-        // This would be an actual API call in a real application
-        // const response = await fetch('https://api.care.com/v1/housekeepers?zipcode=${zipCode}');
-        // const data = await response.json();
-
-        // Simulated response data
-        setTimeout(() => {
-          const mockCleaners = [
-            {
-              id: 101,
-              name: "Maria G.",
-              hourlyRate: 35,
-              rating: 4.9,
-              reviews: 127,
-              yearsExperience: 7,
-              backgroundChecked: true,
-              image: "/api/placeholder/100/100",
-            },
-            {
-              id: 102,
-              name: "Robert J.",
-              hourlyRate: 32,
-              rating: 4.7,
-              reviews: 84,
-              yearsExperience: 5,
-              backgroundChecked: true,
-              image: "/api/placeholder/100/100",
-            },
-            {
-              id: 103,
-              name: "Sarah K.",
-              hourlyRate: 38,
-              rating: 5.0,
-              reviews: 93,
-              yearsExperience: 9,
-              backgroundChecked: true,
-              image: "/api/placeholder/100/100",
-            },
-          ];
-          setCleaners(mockCleaners);
-          setLoading(false);
-        }, 1000);
-      } catch (err) {
-        setError("Failed to load housekeepers. Please try again later.");
-        setLoading(false);
-      }
-    };
-
-    if (zipCode.length === 5) {
-      setLoading(true);
-      fetchCleaners();
-    }
-  }, [zipCode]);
-
-  // Handle zip code search
-  const handleZipCodeSearch = (e) => {
-    e.preventDefault();
-    if (zipCode.length === 5) {
-      // This would trigger the useEffect above
-    }
-  };
-
-  // Handle service selection
-  const handleServiceSelect = (service) => {
-    setSelectedService(service);
-    setShowBookingForm(true);
-  };
-
-  // Handle cleaner selection
-  const handleCleanerSelect = (cleaner) => {
-    setSelectedCleaner(cleaner);
-  };
-
-  // Handle contact info changes
-  const handleContactInfoChange = (e) => {
-    const { name, value } = e.target;
-    setContactInfo((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Handle booking submission
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
-    // Simulate API call to create booking
-    setTimeout(() => {
-      setBookingSuccess(true);
-      // Reset form data after successful booking
-      setTimeout(() => {
-        setBookingSuccess(false);
-        setShowBookingForm(false);
-        setSelectedService(null);
-        setSelectedCleaner(null);
-        setBookingDate("");
-        setBookingTime("");
-        setContactInfo({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-          specialInstructions: "",
-        });
-      }, 3000);
-    }, 1500);
-  };
-
+  
   return (
     <div className="max-w-6xl mx-auto p-4">
       <header className="mb-8 text-center">
@@ -171,32 +63,7 @@ const Housekeeping = () => {
         </p>
       </header>
 
-      {/* Zip Code Search */}
-      <div className="bg-blue-50 p-6 rounded-lg mb-8">
-        <h2 className="text-xl font-semibold mb-4">
-          Find Housekeepers in Your Area
-        </h2>
-        <form onSubmit={handleZipCodeSearch} className="flex flex-wrap gap-4">
-          <div className="flex-grow">
-            <input
-              type="text"
-              placeholder="Enter ZIP Code"
-              className="w-full p-3 border border-gray-300 rounded"
-              value={zipCode}
-              onChange={(e) =>
-                setZipCode(e.target.value.replace(/[^0-9]/g, "").slice(0, 5))
-              }
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-3 rounded font-semibold hover:bg-blue-700"
-            disabled={zipCode.length !== 5}
-          >
-            Search
-          </button>
-        </form>
-      </div>
+      
 
       {/* Services Section */}
       <section className="mb-12">
@@ -214,89 +81,14 @@ const Housekeeping = () => {
             >
               <h3 className="text-lg font-semibold mb-2">{service.name}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
-              <p className="font-bold text-xl">${service.price}</p>
+              <p className="font-bold text-xl">₹{service.price}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Available Cleaners Section */}
-      {zipCode.length === 5 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">
-            Available Housekeepers
-          </h2>
-
-          {loading && (
-            <p className="text-center p-8">Loading available housekeepers...</p>
-          )}
-
-          {error && <p className="text-center text-red-500 p-8">{error}</p>}
-
-          {!loading && !error && cleaners.length === 0 && (
-            <p className="text-center p-8">
-              No housekeepers found in your area. Try a different ZIP code.
-            </p>
-          )}
-
-          {!loading && !error && cleaners.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {cleaners.map((cleaner) => (
-                <div
-                  key={cleaner.id}
-                  className={`border rounded-lg p-6 cursor-pointer transition-all hover:shadow-md ${
-                    selectedCleaner?.id === cleaner.id
-                      ? "ring-2 ring-blue-500 bg-blue-50"
-                      : ""
-                  }`}
-                  onClick={() => handleCleanerSelect(cleaner)}
-                >
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={cleaner.image}
-                      alt={cleaner.name}
-                      className="w-16 h-16 rounded-full mr-4 object-cover"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold">{cleaner.name}</h3>
-                      <p className="text-gray-600">
-                        ${cleaner.hourlyRate}/hour
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <div className="flex items-center mb-1">
-                      <span className="text-yellow-500 mr-1">★</span>
-                      <span>
-                        {cleaner.rating} ({cleaner.reviews} reviews)
-                      </span>
-                    </div>
-                    <p className="text-gray-600 text-sm">
-                      {cleaner.yearsExperience} years experience
-                    </p>
-                    {cleaner.backgroundChecked && (
-                      <p className="text-green-600 text-sm font-medium mt-1">
-                        ✓ Background checked
-                      </p>
-                    )}
-                  </div>
-
-                  <button
-                    className={`w-full py-2 rounded font-medium mt-2 ${
-                      selectedCleaner?.id === cleaner.id
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {selectedCleaner?.id === cleaner.id ? "Selected" : "Select"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
+      
 
       {/* Booking Form */}
       {showBookingForm && (
@@ -320,7 +112,7 @@ const Housekeeping = () => {
                 {selectedService && (
                   <div>
                     <p className="font-medium">
-                      {selectedService.name} - ${selectedService.price}
+                      {selectedService.name} - ₹{selectedService.price}
                     </p>
                     <p className="text-sm text-gray-600">
                       {selectedService.description}
@@ -341,7 +133,7 @@ const Housekeeping = () => {
                     <div>
                       <p className="font-medium">{selectedCleaner.name}</p>
                       <p className="text-sm text-gray-600">
-                        ${selectedCleaner.hourlyRate}/hour •{" "}
+                      ₹{selectedCleaner.hourlyRate}/hour •{" "}
                         {selectedCleaner.rating} ★
                       </p>
                     </div>

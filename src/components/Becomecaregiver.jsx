@@ -71,17 +71,17 @@ const BecomeCaregiver = () => {
                 Join thousands of caregivers helping families while working on
                 your own terms.
               </p>
-              <button className="mt-6 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-blue-50">
-                Get Started
+              <button className="mt-6 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-blue-50" onClick={() => navigate("/caregiver-form")}>
+                Apply Now
               </button>
             </div>
-            <div className="hidden md:block">
+            {/* <div className="hidden md:block">
               <img
                 src="/api/placeholder/600/400"
                 alt="Caregiver helping an elderly person"
                 className="rounded-lg shadow-lg"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -155,11 +155,11 @@ const BecomeCaregiver = () => {
                 key={i}
                 className="bg-gray-100 p-6 rounded-lg shadow-md text-center"
               >
-                <img
+                {/* <img
                   src="/api/placeholder/60/60"
                   alt="Caregiver"
                   className="h-12 w-12 rounded-full object-cover mx-auto mb-4"
-                />
+                /> */}
                 <h3 className="font-semibold text-gray-900">Emily R.</h3>
                 <p className="text-gray-500">Child Care Provider</p>
                 <p className="text-gray-600 italic mt-2">

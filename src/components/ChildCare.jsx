@@ -73,13 +73,13 @@ const ChildCare = () => {
               </p>
               <div className="mt-10">
                 <a
-                  href="#"
+                  href="/find-caregiver"
                   className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-50 focus:outline-none"
                 >
                   Search for Childcare
                 </a>
                 <a
-                  href="#"
+                  href="/"
                   className="ml-4 inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-blue-700 focus:outline-none"
                 >
                   Learn More
@@ -195,7 +195,7 @@ const ChildCare = () => {
       </section>
 
       {/* Featured caregivers section */}
-      <section className="py-16">
+      {/* <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -262,7 +262,7 @@ const ChildCare = () => {
             </a>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Parent resources section */}
       <section className="py-16 bg-gray-100">
@@ -279,11 +279,11 @@ const ChildCare = () => {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             <a href="#" className="group">
               <div className="bg-white rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
-                <img
+                {/* <img
                   src="/api/placeholder/400/200"
                   alt="Resource thumbnail"
                   className="w-full h-48 object-cover"
-                />
+                /> */}
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600">
                     How to Choose the Right Nanny for Your Family
@@ -297,11 +297,11 @@ const ChildCare = () => {
             </a>
             <a href="#" className="group">
               <div className="bg-white rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
-                <img
+                {/* <img
                   src="/api/placeholder/400/200"
                   alt="Resource thumbnail"
                   className="w-full h-48 object-cover"
-                />
+                /> */}
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600">
                     10 Questions to Ask During a Babysitter Interview
@@ -314,11 +314,11 @@ const ChildCare = () => {
             </a>
             <a href="#" className="group">
               <div className="bg-white rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
-                <img
+                {/* <img
                   src="/api/placeholder/400/200"
                   alt="Resource thumbnail"
                   className="w-full h-48 object-cover"
-                />
+                /> */}
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600">
                     Creating a Positive Relationship with Your Caregiver

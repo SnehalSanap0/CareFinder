@@ -43,7 +43,7 @@ const Login = () => {
       login(data.token, data.username, userId, isCaretaker, data.roles);
       
       // Redirect based on user role
-      const redirectPath = isCaretaker ? "/caregiver-dashboard" : "/user-dashboard";
+      const redirectPath = "/"
       navigate(redirectPath);
     } catch (error) {
       setError(error.message);

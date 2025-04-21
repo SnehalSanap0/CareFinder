@@ -162,10 +162,10 @@ const HowItWorks = () => {
 
         <div className="mt-12 text-center">
           <a
-            href="#"
+            href="/"
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-colors duration-300 transform hover:scale-105"
           >
-            Get Started with OTP Verification
+            Get Started
           </a>
         </div>
       </div>

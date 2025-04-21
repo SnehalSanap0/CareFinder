@@ -65,7 +65,7 @@ const Footer = () => {
             <ul className="mt-4 space-y-4">
               <li>
                 <a
-                  href="#"
+                  href="/child-care"
                   className="text-base text-gray-300 hover:text-white"
                 >
                   Child Care
@@ -73,7 +73,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/senior-care"
                   className="text-base text-gray-300 hover:text-white"
                 >
                   Senior Care
@@ -81,7 +81,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/pet-care"
                   className="text-base text-gray-300 hover:text-white"
                 >
                   Pet Care
@@ -89,7 +89,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/house-keeping"
                   className="text-base text-gray-300 hover:text-white"
                 >
                   Housekeeping
