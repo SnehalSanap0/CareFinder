@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
           <div className="col-span-2">
             <div className="flex items-center">
               <span className="text-2xl font-bold text-white">CareFinder</span>
@@ -14,7 +14,7 @@ const Footer = () => {
               mission is to help families find the care they need and help
               caregivers build rewarding careers.
             </p>
-            <div className="mt-6 flex space-x-6">
+            <div className="mt-6 flex space-between space-x-6">
               <a href="#" className="text-gray-400 hover:text-white">
                 <span className="sr-only">Facebook</span>
                 <svg
@@ -59,7 +59,7 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase text-align-right">
               Services
             </h3>
             <ul className="mt-4 space-y-4">
@@ -97,7 +97,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div>
+          {/* <div>
             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
               Company
             </h3>
@@ -135,8 +135,8 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
               Support
             </h3>
@@ -174,7 +174,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
         <div className="mt-12 border-t border-gray-700 pt-8">
           <p className="text-base text-gray-400 text-center">

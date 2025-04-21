@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import female from "../assets/female.webp";
 
 const Hero = () => {
   const careOptions = ["family", "children", "pets", "seniors", "home", "loved ones"];
@@ -98,7 +99,7 @@ const Hero = () => {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src="/api/placeholder/800/600"
+          src={female}
           alt="Happy family with caregiver"
         />
       </div>

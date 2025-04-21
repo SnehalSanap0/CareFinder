@@ -320,7 +320,7 @@ const CaregiverApplicationForm = () => {
                     onClick={() => setStep(2)}
                     className="px-6 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
                   >
-                    Next: Professional Details
+                    Next : Professional Details
                   </button>
                 </div>
               </div>
@@ -403,7 +403,7 @@ const CaregiverApplicationForm = () => {
                     onClick={() => setStep(3)}
                     className="px-6 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
                   >
-                    Next: Payement
+                    Next : Payment
                   </button>
                 </div>
               </div>

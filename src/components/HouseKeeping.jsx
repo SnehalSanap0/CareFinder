@@ -303,16 +303,6 @@ const Housekeeping = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t pt-8 text-center text-gray-600">
-        <p className="mb-4">
-          © 2025 Housekeeping Services. All rights reserved.
-        </p>
-        <p className="text-sm">
-          Inspired by Care.com's trusted platform for connecting households with
-          quality service providers.
-        </p>
-      </footer>
     </div>
   );
 };
